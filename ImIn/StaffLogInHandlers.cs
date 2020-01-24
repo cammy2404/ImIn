@@ -14,6 +14,14 @@ namespace ImIn
         public void ClockUser()
         {
             Console.WriteLine("User has clocked in");
+
+            DBConnection db = new DBConnection();
+
+            string com_password = ComputeSha256Hash(password);
+
+            List<string>[] results = db.Select("select ID, Username, Password from Location");
+
+
         }
 
         public void LogIn(Form window)
