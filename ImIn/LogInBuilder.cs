@@ -126,7 +126,7 @@ namespace ImIn
             Button ClockButton = new Button
             {
                 Bounds = new Rectangle((window.Width / 2) - (but_width / 2),
-                                        LocationPassword.Location.Y + LocationPassword.Size.Height + 25,
+                                        LocationID.Location.Y + LocationID.Size.Height + 25,
                                         but_width,
                                         but_height),
                 Text = "Clock",
@@ -135,7 +135,7 @@ namespace ImIn
                 FlatStyle = FlatStyle.Flat
             };
             // Add event handler using the StaffLogInHandlers file
-            ClockButton.Click += (sender, args) => { new stfHand().SayHey(); };
+            ClockButton.Click += (sender, args) => { new stfHand().ClockUser(); };
 
 
             // Log in button for the staff clock in screen
@@ -160,14 +160,15 @@ namespace ImIn
                 Bounds = (location) ? new Rectangle((window.Width / 2) - (web_link_width / 2),
                                                     LaunchButton.Location.Y + LaunchButton.Size.Height + 25,
                                                     web_link_width,
-                                                    25) 
+                                                    25)
                 :
                                       new Rectangle((window.Width / 2) - (web_link_width / 2),
                                                     LogInButton.Location.Y + LogInButton.Size.Height + 25,
                                                     web_link_width,
                                                     25),
                 Text = web_link_caption,
-                TextAlign = ContentAlignment.MiddleCenter
+                TextAlign = ContentAlignment.MiddleCenter,
+                TabStop = false
             };
             // Event handler for when the link is clicked
             WebLink.LinkClicked += (sender, args) => { System.Diagnostics.Process.Start(web_link); };
@@ -190,11 +191,13 @@ namespace ImIn
             window.Controls.Add(logo);
             window.Controls.Add(HeaderLabel);
             window.Controls.Add(LocationID);
-            window.Controls.Add(LocationPassword);
-            
+
             // Ensure that the correct buttons are added, depends on if location or staff log in
             if (location)
+            {
+                window.Controls.Add(LocationPassword);
                 window.Controls.Add(LaunchButton);
+            }
             else
             {
                 window.Controls.Add(ClockButton);

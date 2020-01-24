@@ -19,8 +19,6 @@ namespace ImIn
                 if (c is Button || c is TextBox)
                     c.Enabled = false;
 
-            Console.WriteLine("Thread Starting");
-
             Cursor.Current = Cursors.WaitCursor;
 
             Thread accessDB = new Thread(() => {
@@ -29,19 +27,14 @@ namespace ImIn
             accessDB.Start();
             accessDB.Join();
             Cursor.Current = Cursors.Default;
-
-            Console.WriteLine("Thread Complete");
-            Console.WriteLine(loc_id);
             if (loc_id == "-1")
             {
                 foreach (Control c in window.Controls)
                     if (c is Button || c is TextBox)
                         c.Enabled = true;
-                Console.WriteLine("Failed to log in");
             } else {
                 window.Controls.Clear();
                 new LogInBuilder().LoadScreen(window);
-                Console.WriteLine("Successfully logged in");
             }
         }
 

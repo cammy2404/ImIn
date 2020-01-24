@@ -11,9 +11,9 @@ namespace ImIn
     class StaffLogInHandlers
     {
 
-        public void SayHey()
+        public void ClockUser()
         {
-            Console.WriteLine("Hey!");
+            Console.WriteLine("User has clocked in");
         }
 
         public void LogIn(Form window)
