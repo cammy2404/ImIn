@@ -18,9 +18,8 @@ namespace ImIn
         private readonly static int but_height = but_width / 3;
         private readonly static int exit_but_size = 70;
 
-        private readonly static string placeholder_text = "Username";
-        private readonly static Color placeholder_color = Color.LightGray;
-        private readonly static Color text_color = Color.Black;
+        private readonly static string placeholder_text_1 = "Username";
+        private readonly static string placeholder_text_2 = "PIN";
 
         private readonly static string web_link = "http://www.cammymcn.tech";
         private readonly static string web_link_caption = "Visit my website to learn more";
@@ -72,7 +71,7 @@ namespace ImIn
                                         input_width,
                                         30),
                 Font = fnts.main_font,
-                Text = (location) ? "Location Credentials" : "Employee Info",
+                Text = (location) ? "Location Credentials" : "Employee PIN",
                 TextAlign = ContentAlignment.MiddleCenter
             };
 
@@ -85,10 +84,10 @@ namespace ImIn
                                         input_width,
                                         50)
             };
-            GenInputFields(LocationID);
+            GenInputFields(LocationID, location);
             // Add the event handlers
             LocationID.GotFocus += RemoveText;
-            LocationID.LostFocus += AddText;
+            LocationID.LostFocus += (sender, args) => { AddText(sender, location); };
 
 
             // Textbox for the password for eitehr the location or the staff member
@@ -100,10 +99,10 @@ namespace ImIn
                                         50),
                 PasswordChar = "*".ToCharArray()[0]
             };
-            GenInputFields(LocationPassword);
+            GenInputFields(LocationPassword, location);
             // Add the event handlers 
             LocationPassword.GotFocus += RemoveText;
-            LocationPassword.LostFocus += AddText;
+            LocationPassword.LostFocus += (sender, args) => { AddText(sender, location); };
 
 
             // Launch button for the location screen
@@ -135,7 +134,7 @@ namespace ImIn
                 FlatStyle = FlatStyle.Flat
             };
             // Add event handler using the StaffLogInHandlers file
-            ClockButton.Click += (sender, args) => { new stfHand().ClockUser(); };
+            ClockButton.Click += (sender, args) => { new stfHand().ClockUser(LocationID.Text.ToString(), window); };
 
 
             // Log in button for the staff clock in screen
@@ -151,7 +150,7 @@ namespace ImIn
                 FlatStyle = FlatStyle.Flat
             };
             // Add event handler using the StaffLogInHandlers file
-            LogInButton.Click += (sender, args) => { new stfHand().LogIn(window); };
+            LogInButton.Click += (sender, args) => { new stfHand().LogIn(LocationID.Text.ToString(), window); };
 
 
             // Link label to take the user to the website
@@ -213,13 +212,13 @@ namespace ImIn
         /// Sets up the input fields with the default values
         /// </summary>
         /// <param name="control"> The control to apply the values to </param>
-        private void GenInputFields(TextBox control)
+        private void GenInputFields(TextBox control, bool location)
         {
             control.TextAlign = HorizontalAlignment.Center;
             control.Font = fnts.main_font;
-            control.Text = placeholder_text;
+            control.Text = (location) ? placeholder_text_1 : placeholder_text_2;
             control.MaxLength = input_length;
-            control.ForeColor = placeholder_color;
+            control.ForeColor = new colours().placeholder_color;
         }
 
 
@@ -231,10 +230,10 @@ namespace ImIn
         private void RemoveText(object sender, EventArgs e)
         {
             TextBox input = sender as TextBox;
-            if (input.Text == placeholder_text)
+            if (input.Text == placeholder_text_1 || input.Text == placeholder_text_2)
             {
                 input.Text = "";
-                input.ForeColor = text_color;
+                input.ForeColor = new colours().text_color;
             }
         }
 
@@ -244,13 +243,13 @@ namespace ImIn
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddText(object sender, EventArgs e)
+        private void AddText(object sender, bool location)
         {
             TextBox input = sender as TextBox;
             if (string.IsNullOrWhiteSpace(input.Text))
             {
-                input.Text = placeholder_text;
-                input.ForeColor = placeholder_color;
+                input.Text = (location) ? placeholder_text_1 : placeholder_text_2;
+                input.ForeColor = new colours().placeholder_color;
             }
         }
         

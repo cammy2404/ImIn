@@ -34,6 +34,8 @@ namespace ImIn
 
         public void LoadScreen(Form window)
         {
+            window.Controls.Clear();
+
             input_window = window;
 
             menu_width = window.Width / 7;

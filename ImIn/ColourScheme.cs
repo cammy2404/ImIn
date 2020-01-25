@@ -17,5 +17,9 @@ namespace ImIn
 
         public readonly Color header_text = Color.White;
 
+
+        public readonly Color placeholder_color = Color.LightGray;
+        public readonly Color text_color = Color.Black;
+
     }
 }
